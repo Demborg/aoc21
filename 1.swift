@@ -1,5 +1,3 @@
-import Foundation
-
 var data: Array<Int> = []
 while let rawValue = readLine(strippingNewline: true) {
     if let value = Int(rawValue) {

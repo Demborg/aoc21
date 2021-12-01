@@ -11,3 +11,11 @@ print(
         .filter { $1 > $0 }
         .count
 )
+
+let smooth = zip(data, zip(data[1...], data[2...]))
+    .map { $0 + $1.0 + $1.1 }
+print(
+    zip(smooth, smooth[1...])
+        .filter { $1 > $0 }
+        .count
+)

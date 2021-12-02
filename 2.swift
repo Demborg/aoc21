@@ -18,3 +18,5 @@ while let rawValue = readLine(strippingNewline: true) {
 
 let res = data.reduce((0, 0), {first, second in (first.0 + second.0, first.1 + second.1)})
 print(res.0 * res.1)
+let res2 = data.reduce((0, 0, 0), {first, second in (first.0 + second.0, first.1 + second.0 * first.2, first.2 + second.1)})
+print(res2.0 * res2.1)

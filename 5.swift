@@ -4,8 +4,16 @@ func twoTuple<T>(from array: [T]) -> (T, T) {
     (array[0], array[1])
 }
 
-func unDirectionalRange(_ start: Int, _ stop: Int) -> ClosedRange<Int> {
-    return min(start, stop)...max(start, stop)
+func lineToPoints(line: ((Int, Int), (Int, Int))) -> [Point] {
+    let steps = max(abs(line.0.0 - line.1.0), abs(line.0.1 - line.1.1))
+    let points = (0...steps)
+        .map {
+            Point(
+                x: line.0.0 + $0 * (line.1.0 - line.0.0) / steps,
+                y: line.0.1 + $0 * (line.1.1 - line.0.1) / steps
+            )
+        }
+    return points
 }
 
 struct Point : Hashable {
@@ -35,14 +43,8 @@ let allLines = rawLines
     }
 
 let points = allLines
-    .filter { line in line.0.0 == line.1.0 || line.0.1 == line.1.1}
-    .flatMap { line -> [(Int, Int)] in
-        if line.0.0 == line.1.0 {
-            return unDirectionalRange(line.0.1, line.1.1).map {(line.0.0, $0)}
-        }
-        return unDirectionalRange(line.0.0, line.1.0).map {($0, line.0.1)}
-    }
-    .map { Point(x: $0.0, y: $0.1) }
+    // .filter { line in line.0.0 == line.1.0 || line.0.1 == line.1.1}
+    .flatMap(lineToPoints)
 
 var counts: [Point: Int] = [:] 
 for p in points {

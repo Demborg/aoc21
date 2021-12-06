@@ -1,7 +1,9 @@
-var fish = readLine()!.split(separator:",").map {Int($0)!}
+let fish = readLine()!.split(separator:",").map {Int($0)!}
+var ages = (0...6).map {age in (age, fish.filter { $0 == age }.count)}
 
-for day in 0..<80 {
-    fish.append(contentsOf: [Int](repeating: 9, count:fish.filter {$0 == 0}.count))
-    fish = fish.map {$0 > 0 ? $0 - 1 : 6}
+for _ in 0..<256 { 
+    ages.append((9, ages.filter {$0.0 == 0}.reduce(0) {$0 + $1.1} ))
+    ages = ages.map { ($0.0 > 0 ? $0.0 - 1 : 6, $0.1) }
 }
-print(fish.count)
+
+print(ages.reduce(0) {$0 + $1.1})

@@ -12,7 +12,7 @@ print(
         .count
 )
 
-func translate(_ code: String, using dict: [Int: String]) -> Int? {
+func translate(_ code: String, using dict: [Int: String]) -> Int {
     switch code.count {
     case 2:
         return 1
@@ -20,23 +20,24 @@ func translate(_ code: String, using dict: [Int: String]) -> Int? {
         return 7
     case 4:
         return 4
-    case 7:
-        return 8
     case 5:
         if code.filter {dict[1]!.contains($0)}.count == 2 {
             return 3
         }
-        if code.filter {dict[4]!.contains($0)}.count == 2 {
-            return 2
+        if code.filter {symbol in dict[4]!.filter {!dict[1]!.contains($0)}.contains(symbol)}.count == 2 {
+            return 5
         }
-        return 3
+        return 2
     case 6:
         if code.filter {dict[1]!.contains($0)}.count == 1 {
             return 6
         }
-        return 9
+        if code.filter {dict[4]!.contains($0)}.count == 4 {
+            return 9
+        }
+        return 0
     default:
-        return nil
+        return 8
     }
 }
 
@@ -55,7 +56,7 @@ let asd = split
 print(
     asd
         .map { thing in 
-            thing.1.map {translate(String($0), using: thing.0)!}
+            thing.1.map {translate(String($0), using: thing.0)}
         }
         .map {
             Int(
@@ -64,5 +65,5 @@ print(
                     .joined(separator: "")
             )!
         }
-        // .reduce(0, +)
+        .reduce(0, +)
 )

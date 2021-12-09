@@ -15,10 +15,9 @@ for row in heightMap.enumerated() {
         for offsets in [(y - 1, x), (y + 1, x), (y, x - 1), (y, x + 1)] {
             let xi = offsets.1
             let yi = offsets.0
-            if xi < 0 || yi < 0 || xi >= line.count || yi >= heightMap.count {
-                continue
+            if (0..<line.count).contains(xi) && (0..<heightMap.count).contains(yi){
+                minima = minima && element < heightMap[yi][xi]
             }
-            minima = minima && element < heightMap[yi][xi]
         }
         if minima {
             danger += element + 1

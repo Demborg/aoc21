@@ -4,7 +4,7 @@ while let line = readLine() {
     heightMap.append(line.map { Int(String($0))! } )
 }
 
-var danger = 0
+var lowPoints: [(x: Int, y: Int, value: Int)] = []
 for row in heightMap.enumerated() {
     let y = row.0
     let line = row.1
@@ -20,9 +20,9 @@ for row in heightMap.enumerated() {
             }
         }
         if minima {
-            danger += element + 1
+            lowPoints.append((x: x, y: y, value: element))
         }
     }
 }
 
-print(danger)
+print(lowPoints.reduce(0) {$0 + $1.value + 1})

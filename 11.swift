@@ -5,7 +5,9 @@ while let line = readLine() {
 }
 
 var flashes = 0
-for _ in 0..<100 {
+var index = 0
+while (octopuses.flatMap{$0}.filter {!$0.flashed}.count > 0 ) {
+    index += 1
     octopuses = octopuses.map { line in line.map {(value: $0.value + 1, flashed: false)} }
     while (octopuses.flatMap{$0}.filter {$0.value > 9}.count > 0) {
         for yThing in octopuses.enumerated() {
@@ -15,7 +17,10 @@ for _ in 0..<100 {
                     octopuses[yThing.0][xThing.0] = (value: 0, flashed: true)
                     for yi in (yThing.0 - 1)...(yThing.0 + 1) {
                         for xi in (xThing.0 - 1)...(xThing.0 + 1) {
-                            if (yi != yThing.0 || xi != xThing.0) && (0..<octopuses.count).contains(yi) && (0..<octopuses[0].count).contains(xi) && !octopuses[yi][xi].flashed {
+                            if (yi != yThing.0 || xi != xThing.0)
+                                && (0..<octopuses.count).contains(yi)
+                                && (0..<octopuses[0].count).contains(xi)
+                                && !octopuses[yi][xi].flashed {
                                 octopuses[yi][xi].value += 1
                             }
                         }
@@ -24,6 +29,8 @@ for _ in 0..<100 {
             }
         }
     }
+    if index == 100 {
+        print(flashes)
+    }
 }
-
-print(flashes)
+print (index)

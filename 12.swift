@@ -26,3 +26,17 @@ print(
         !visited.filter{ $0.lowercased() == $0 }.contains(next)
     }.count
 )
+
+print(
+    explore(caves){next, visited in
+        if next == "start" { return false }
+        let counts = Dictionary(
+            grouping: visited.filter{ $0.lowercased() == $0 },
+            by: {$0}
+        ).mapValues {$0.count}
+        if (counts.reduce(true) {$0 && $1.value  < 2}) {
+            return true
+        }
+        return counts[next] == nil
+    }.count
+)

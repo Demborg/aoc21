@@ -5,16 +5,24 @@ while let line = readLine() {
     caves[cave[1]] = (caves[cave[1]] ?? []) + [cave[0]]
 }
 
-func explore(_ caves: [String: [String]], visited: [String] = []) -> [[String]] {
+func explore(
+    _ caves: [String: [String]],
+    visited: [String] = [],
+    filter: (String, [String]) -> Bool
+) -> [[String]] {
     guard let last = visited.last else {
-        return explore(caves, visited: ["start"])
+        return explore(caves, visited: ["start"], filter: filter)
     }
     if last == "end" {
         return [visited]
     }
     return (caves[last] ?? [])
-        .filter {next in !visited.filter{ $0.lowercased() == $0 }.contains(next) }
-        .flatMap { explore(caves, visited: visited + [$0]) }
+        .filter{ filter($0, visited) }
+        .flatMap { explore(caves, visited: visited + [$0], filter: filter) }
 }
 
-print(explore(caves).count)
+print(
+    explore(caves){next, visited in
+        !visited.filter{ $0.lowercased() == $0 }.contains(next)
+    }.count
+)

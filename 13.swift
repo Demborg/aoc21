@@ -13,14 +13,15 @@ while let line = readLine() {
     }
 }
 
-let fold = folds.first!
-print(
-    Dictionary(
+func fold(_ dots: [[Int]], with fold: (dir: Int, cord: Int)) -> [[Int]] {
+    return Dictionary(
         grouping: dots.map {dot in
             dot.enumerated().map {
                 $0.0 == fold.dir ? ($0.1 > fold.cord ? 2 * fold.cord - $0.1 : $0.1): $0.1
             } 
         },
         by: {$0}
-    ).count
-)
+    ).map {$0.key}
+}
+
+print(fold(dots, with: folds.first!).count)

@@ -26,9 +26,7 @@ func fold(_ dots: [[Int]], with fold: (dir: Int, cord: Int)) -> [[Int]] {
 
 print(fold(dots, with: folds.first!).count)
 
-for f in folds {
-    dots = fold(dots, with: f)
-}
+dots = folds.reduce(dots) {dots, f in fold(dots, with: f)}
 print(
     (0...dots.reduce(0) {max($0, $1[1])})
         .map {y in 
